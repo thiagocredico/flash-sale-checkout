@@ -1,0 +1,29 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  checkout-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: checkout
+      POSTGRES_USER: checkout
+      POSTGRES_PASSWORD: checkout
+    ports:
+      - "5433:5432"
+
+  processor-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: orders
+      POSTGRES_PASSWORD: orders
+    ports:
+      - "5434:5432"

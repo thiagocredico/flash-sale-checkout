@@ -1,0 +1,45 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    name: checkout-service
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/checkout}
+    username: ${DB_USERNAME:checkout}
+    password: ${DB_PASSWORD:checkout}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+
+order:
+  query:
+    retry-delay-ms: ${ORDER_QUERY_RETRY_DELAY_MS:100}
+
+flash-sale:
+  stock:
+    initial:
+      - product-id: ${INITIAL_STOCK_PRODUCT_ID:PROD-001}
+        quantity: ${INITIAL_STOCK_QUANTITY:100}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

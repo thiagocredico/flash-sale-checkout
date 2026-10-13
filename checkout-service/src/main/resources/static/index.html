@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flash Sale — Checkout</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>⚡ Flash Sale — Checkout</h1>
+      <p class="subtitle">
+        Visualização do fluxo de reserva de estoque, pedido e compensação (SAGA
+        coreografada)
+      </p>
+      <div id="health" class="health health--unknown">Verificando backend…</div>
+    </header>
+
+    <main class="grid">
+      <section class="card card--wide">
+        <h2>1. Estoque atual</h2>
+        <div class="row">
+          <button id="refresh-stock" type="button">Atualizar estoque</button>
+          <label class="checkbox">
+            <input type="checkbox" id="auto-refresh-stock" checked />
+            Atualizar automaticamente a cada 5s
+          </label>
+        </div>
+        <table id="stock-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quantidade disponível</th>
+            </tr>
+          </thead>
+          <tbody id="stock-body">
+            <tr class="empty-row">
+              <td colspan="2">Carregando…</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>2. Criar pedido</h2>
+        <form id="create-form">
+          <label>
+            Produto
+            <input type="text" id="produto_id" value="PROD-001" required />
+          </label>
+          <label>
+            Quantidade
+            <input type="number" id="quantidade" value="1" min="1" required />
+          </label>
+          <label>
+            CPF do cliente
+            <input type="text" id="cliente_cpf" value="50329291076" required />
+          </label>
+          <label>
+            Nome do cliente
+            <input
+              type="text"
+              id="cliente_nome"
+              value="Fernando Augusto"
+              required
+            />
+          </label>
+          <button type="submit">Comprar</button>
+        </form>
+        <div id="create-result" class="result"></div>
+      </section>
+
+      <section class="card">
+        <h2>3. Consultar pedido</h2>
+        <form id="query-form">
+          <label>
+            Pedido ID
+            <input
+              type="text"
+              id="pedido_id"
+              placeholder="cole ou selecione um pedido do histórico"
+              required
+            />
+          </label>
+          <div class="row">
+            <button type="submit">Buscar</button>
+            <label class="checkbox">
+              <input type="checkbox" id="auto-refresh" />
+              Atualizar automaticamente até sair de PROCESSING
+            </label>
+          </div>
+        </form>
+        <div id="query-result" class="result"></div>
+      </section>
+
+      <section class="card card--wide">
+        <h2>4. Histórico de pedidos (nesta sessão do navegador)</h2>
+        <table id="history-table">
+          <thead>
+            <tr>
+              <th>Pedido ID</th>
+              <th>Produto</th>
+              <th>Qtd.</th>
+              <th>Status</th>
+              <th>Criado em</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="history-body">
+            <tr class="empty-row">
+              <td colspan="6">Nenhum pedido criado ainda.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      Backend: <code>checkout-service</code> na porta <code>8081</code>. Requer
+      Redis, RabbitMQ e PostgreSQL no ar (<code>docker compose up -d</code>)
+      para os pedidos saírem de <code>PROCESSING</code>.
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
